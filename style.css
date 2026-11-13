@@ -698,3 +698,31 @@ footer {
         height: 350px;
     }
 }
+.moon-3d-container {
+width: 100%;
+height: 600px;
+margin: 30px auto;
+border-radius: 20px;
+overflow: hidden;
+background: #02040a;
+border: 1px solid rgba(100, 170, 255, 0.3);
+box-shadow: 0 0 40px rgba(80, 150, 255, 0.15);
+}
+
+.moon-3d-container model-viewer {
+width: 100%;
+height: 100%;
+background: transparent;
+}
+
+@media (max-width: 800px) {
+.moon-3d-container {
+height: 450px;
+}
+}
+
+@media (max-width: 450px) {
+.moon-3d-container {
+height: 350px;
+}
+}
