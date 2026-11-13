@@ -1,0 +1,700 @@
+/* =========================================
+   LUNAR NAVIGATOR
+   Main Website Styles
+   ========================================= */
+
+/* ---------- BASIC RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #05070d;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+
+/* ---------- STAR BACKGROUND ---------- */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image:
+        radial-gradient(circle, white 1px, transparent 1px),
+        radial-gradient(circle, white 1px, transparent 1px);
+
+    background-size: 90px 90px, 150px 150px;
+    background-position: 10px 20px, 50px 70px;
+
+    opacity: 0.20;
+
+    pointer-events: none;
+    z-index: -1;
+}
+
+
+/* ---------- NAVIGATION ---------- */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 18px 6%;
+
+    background: rgba(5, 7, 13, 0.90);
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid #222a3a;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.logo span {
+    color: #63b3ff;
+}
+
+nav a {
+    color: #cbd5e1;
+    text-decoration: none;
+
+    margin-left: 25px;
+
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #63b3ff;
+}
+
+
+/* ---------- HERO SECTION ---------- */
+
+.hero {
+    min-height: 88vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 60px 20px;
+
+    position: relative;
+}
+
+.hero-content {
+    max-width: 850px;
+}
+
+
+/* ---------- MOON ---------- */
+
+.moon {
+    width: 170px;
+    height: 170px;
+
+    margin: 0 auto 35px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffffff,
+            #cbd5e1 45%,
+            #6b7280 100%
+        );
+
+    box-shadow:
+        0 0 35px rgba(200, 220, 255, 0.35),
+        0 0 100px rgba(80, 150, 255, 0.12);
+
+    animation: moonFloat 5s ease-in-out infinite;
+}
+
+@keyframes moonFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+
+/* ---------- HERO TEXT ---------- */
+
+.hero h1 {
+    font-size: clamp(42px, 8vw, 85px);
+
+    line-height: 1;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #63b3ff;
+}
+
+.hero p {
+    color: #a8b3c5;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    margin-bottom: 35px;
+}
+
+
+/* ---------- BUTTON ---------- */
+
+.button {
+    display: inline-block;
+
+    padding: 14px 26px;
+
+    border-radius: 8px;
+
+    background: #2774d9;
+
+    color: white;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #4c9cff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 0 25px rgba(76, 156, 255, 0.35);
+}
+
+
+/* ---------- GENERAL SECTIONS ---------- */
+
+section {
+    padding: 80px 7%;
+}
+
+.section-title {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.section-title h2 {
+    font-size: 38px;
+
+    margin-bottom: 12px;
+}
+
+.section-title p {
+    color: #8f9bad;
+}
+
+
+/* ---------- DASHBOARD ---------- */
+
+.dashboard {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 18px;
+}
+
+.stat {
+    background: #0d111c;
+
+    border: 1px solid #222b3b;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    transition: 0.3s;
+}
+
+.stat:hover {
+    transform: translateY(-5px);
+
+    border-color: #4b91e8;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.3);
+}
+
+.stat h3 {
+    font-size: 30px;
+
+    color: #63b3ff;
+
+    margin-bottom: 8px;
+}
+
+.stat p {
+    color: #8f9bad;
+
+    font-size: 14px;
+}
+
+
+/* ---------- MAP CONTAINER ---------- */
+
+.map-container {
+    max-width: 1100px;
+
+    margin: auto;
+
+    background: #080c14;
+
+    border: 1px solid #263246;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ---------- SEARCH ---------- */
+
+.search {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+}
+
+.search input {
+    flex: 1;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    border: 1px solid #303b4f;
+
+    background: #101622;
+
+    color: white;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.search input:focus {
+    border-color: #63b3ff;
+
+    box-shadow:
+        0 0 12px rgba(99, 179, 255, 0.15);
+}
+
+.search input::placeholder {
+    color: #697588;
+}
+
+
+/* ---------- LUNAR MAP ---------- */
+
+.map {
+    height: 500px;
+
+    border-radius: 15px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #59616c 0 4%,
+            transparent 4.5%
+        ),
+        radial-gradient(
+            circle at 70% 65%,
+            #454d57 0 6%,
+            transparent 6.5%
+        ),
+        radial-gradient(
+            circle at 45% 50%,
+            #737b85 0 3%,
+            transparent 3.5%
+        ),
+        radial-gradient(
+            circle at 80% 25%,
+            #3c444f 0 5%,
+            transparent 5.5%
+        ),
+        radial-gradient(
+            circle at 30% 75%,
+            #424a54 0 7%,
+            transparent 7.5%
+        ),
+        #8a9199;
+}
+
+.map::after {
+    content: "LUNAR SURFACE";
+
+    position: absolute;
+
+    top: 18px;
+    left: 20px;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+}
+
+
+/* ---------- MAP MARKERS ---------- */
+
+.marker {
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: #ff465c;
+
+    border: 3px solid white;
+
+    box-shadow:
+        0 0 20px rgba(255, 70, 92, 0.8);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    z-index: 5;
+}
+
+.marker:hover {
+    transform: scale(1.5);
+}
+
+.marker::after {
+    content: attr(data-name);
+
+    position: absolute;
+
+    top: 28px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    white-space: nowrap;
+
+    background: #05070d;
+
+    padding: 6px 9px;
+
+    border-radius: 5px;
+
+    font-size: 11px;
+
+    color: white;
+}
+
+
+/* ---------- MARKER POSITIONS ---------- */
+
+.marker1 {
+    left: 25%;
+    top: 40%;
+}
+
+.marker2 {
+    left: 62%;
+    top: 28%;
+}
+
+.marker3 {
+    left: 72%;
+    top: 68%;
+}
+
+.marker4 {
+    left: 43%;
+    top: 73%;
+}
+
+
+/* ---------- LANDING SITE CARDS ---------- */
+
+.sites {
+    max-width: 1200px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.site-card {
+    background: #0d111c;
+
+    border: 1px solid #222b3b;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    transition: 0.3s;
+}
+
+.site-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #4b91e8;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ---------- SITE IMAGE ---------- */
+
+.site-image {
+    height: 170px;
+
+    background:
+        radial-gradient(
+            circle at 30% 40%,
+            #59616c 0 10%,
+            transparent 10.5%
+        ),
+        radial-gradient(
+            circle at 70% 70%,
+            #414954 0 14%,
+            transparent 14.5%
+        ),
+        #777f88;
+}
+
+
+/* ---------- SITE CONTENT ---------- */
+
+.site-content {
+    padding: 22px;
+}
+
+.site-content h3 {
+    margin-bottom: 10px;
+}
+
+.site-content p {
+    color: #929daf;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* ---------- TAG ---------- */
+
+.tag {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 5px 9px;
+
+    border-radius: 5px;
+
+    background: #16243a;
+
+    color: #63b3ff;
+
+    font-size: 11px;
+}
+
+
+/* ---------- INFORMATION ---------- */
+
+.info-grid {
+    max-width: 1000px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+.info-box {
+    background: #0d111c;
+
+    border: 1px solid #222b3b;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    transition: 0.3s;
+}
+
+.info-box:hover {
+    border-color: #4b91e8;
+}
+
+.info-box h3 {
+    color: #63b3ff;
+
+    margin-bottom: 15px;
+}
+
+.info-box p {
+    color: #9ca7b7;
+
+    line-height: 1.7;
+}
+
+
+/* ---------- FOOTER ---------- */
+
+footer {
+    border-top: 1px solid #222b3b;
+
+    text-align: center;
+
+    padding: 30px;
+
+    color: #697588;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MOBILE RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    nav {
+        padding: 15px 20px;
+    }
+
+    nav a {
+        display: none;
+    }
+
+    .dashboard {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .sites {
+        grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .map {
+        height: 400px;
+    }
+}
+
+
+@media (max-width: 450px) {
+
+    section {
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+
+    .search .button {
+        width: 100%;
+    }
+
+    .moon {
+        width: 130px;
+        height: 130px;
+    }
+
+    .map {
+        height: 350px;
+    }
+}
