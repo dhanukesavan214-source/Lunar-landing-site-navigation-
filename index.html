@@ -333,72 +333,7 @@
     </footer>
 
 
-    <!-- JAVASCRIPT -->
-
-    <script>
-
-        function showSite(siteName) {
-
-            alert(
-                "Selected landing site: " +
-                siteName +
-                "\n\nDetailed terrain and mission analysis will appear here in a future version."
-            );
-
-        }
-
-
-        function searchSite() {
-
-            const search =
-                document
-                .getElementById("searchBox")
-                .value
-                .toLowerCase()
-                .trim();
-
-            if (search === "") {
-
-                alert("Please enter a landing site name.");
-
-                return;
-            }
-
-            const sites = [
-                "mare tranquillitatis",
-                "shackleton crater",
-                "tycho crater",
-                "aristarchus plateau"
-            ];
-
-            const found =
-                sites.some(site =>
-                    site.includes(search)
-                );
-
-            if (found) {
-
-                alert(
-                    "Landing site found!\n\n" +
-                    search
-                );
-
-            } else {
-
-                alert(
-                    "No matching landing site found.\n\n" +
-                    "Try:\n" +
-                    "Mare Tranquillitatis\n" +
-                    "Shackleton Crater\n" +
-                    "Tycho Crater\n" +
-                    "Aristarchus Plateau"
-                );
-
-            }
-
-        }
-
-    </script>
+<script src="script.js"></script>
 
 </body>
 </html>
