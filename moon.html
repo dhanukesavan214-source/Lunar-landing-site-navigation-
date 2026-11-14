@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3D Moon | Lunar Navigator</title><link rel="stylesheet" href="style.css"></head><body>
+<main><p class="eyebrow">3D MOON</p><h2>Click a site on the Moon</h2>
+<p class="lead" style="margin:0">Drag to rotate, scroll or pinch buttons to zoom, click an orange marker. The Moon is lit from where the Sun is right now.</p>
+<div class="moonwrap"><div><canvas id="c"></canvas></div>
+<div class="side"><div><span class="eyebrow" id="gn">SELECT A SITE</span><h2 id="nm" style="font-size:32px">—</h2>
+<p class="lead" style="margin:8px 0" id="info">Click a marker or choose from the list.</p>
+<a class="btn p" id="go" href="analyze.html">ANALYZE THIS SITE</a><button class="btn" id="sp">SOUTH POLE</button><button class="btn" id="zi">＋</button><button class="btn" id="zo">－</button></div>
+<div class="sites" id="list"></div></div></div></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script><script src="common.js"></script>
+<script>
+const cv=document.getElementById("c"),R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true}),S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.1,100);cam.position.z=3.6;
+const G=new THREE.Group();S.add(G);G.rotation.y=-Math.PI/2;
+const ll=(la,lo,r)=>new THREE.Vector3(r*Math.cos(la*D2R)*Math.cos(lo*D2R),r*Math.sin(la*D2R),-r*Math.cos(la*D2R)*Math.sin(lo*D2R));
+const tex=new THREE.TextureLoader().load("https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/moon_1024.jpg",null,null,()=>{mat.color.set(0x999999);mat.map=null;mat.needsUpdate=true});
+const mat=new THREE.MeshStandardMaterial({map:tex,bumpMap:tex,bumpScale:.03,roughness:1});
+G.add(new THREE.Mesh(new THREE.SphereGeometry(1,64,64),mat));
+const sp=sunSub(Date.now()/864e5),sun=new THREE.DirectionalLight(0xffffff,1.6);sun.position.copy(ll(sp.lat,sp.lon,10));G.add(sun);S.add(new THREE.AmbientLight(0xffffff,.18));
+const marks=SITES.map((s,i)=>{const m=new THREE.Mesh(new THREE.SphereGeometry(.028,16,16),new THREE.MeshBasicMaterial({color:0xffb454}));m.position.copy(ll(s.lat,s.lon,1.02));m.userData.i=i;G.add(m);return m});
+const list=document.getElementById("list");list.innerHTML=SITES.map((s,i)=>`<button data-i="${i}">${s.n}<small>${s.g}</small></button>`).join("");
+let tgt=null;
+function pick(i){const s=SITES[i],t=Date.now();
+ marks.forEach((m,k)=>{m.material.color.set(k==i?0xffffff:0xffb454);m.scale.setScalar(k==i?1.7:1)});
+ [...list.children].forEach((b,k)=>b.classList.toggle("on",k==i));
+ nm.textContent=s.n;gn.textContent=s.g.toUpperCase();
+ info.innerHTML=`Lat ${s.lat.toFixed(2)}°, Lon ${s.lon.toFixed(2)}°<br>Sun elevation now: ${sunEl(s.lat,s.lon,t/864e5).toFixed(1)}°<br>Earth elevation now: ${earthEl(s.lat,s.lon,t/864e5).toFixed(1)}°`;
+ go.href="analyze.html?site="+i;tgt={x:s.lat*D2R,y:-Math.PI/2-s.lon*D2R}}
+list.onclick=e=>{const b=e.target.closest("button");if(b)pick(+b.dataset.i)};
+sp_=document.getElementById("sp");sp_.onclick=()=>tgt={x:-1.5,y:G.rotation.y};
+zi.onclick=()=>cam.position.z=Math.max(2.2,cam.position.z-.5);zo.onclick=()=>cam.position.z=Math.min(7,cam.position.z+.5);
+let down=null,moved=0;
+cv.onpointerdown=e=>{down=[e.clientX,e.clientY];moved=0;tgt=null;cv.setPointerCapture(e.pointerId)};
+cv.onpointermove=e=>{if(!down)return;const dx=e.clientX-down[0],dy=e.clientY-down[1];moved+=Math.abs(dx)+Math.abs(dy);G.rotation.y+=dx*.006;G.rotation.x=Math.max(-1.57,Math.min(1.57,G.rotation.x+dy*.006));down=[e.clientX,e.clientY]};
+cv.onpointerup=e=>{down=null;if(moved<6){const r=cv.getBoundingClientRect(),v=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1),rc=new THREE.Raycaster();rc.setFromCamera(v,cam);rc.params.Points={};
+ marks.forEach(m=>m.scale.multiplyScalar(2.2));const h=rc.intersectObjects(marks)[0];marks.forEach(m=>m.scale.multiplyScalar(1/2.2));if(h)pick(h.object.userData.i)}};
+cv.onwheel=e=>{e.preventDefault();cam.position.z=Math.max(2.2,Math.min(7,cam.position.z+e.deltaY*.003))};
+(function loop(){const w=cv.clientWidth,h=cv.clientHeight;if(cv.width!=w*devicePixelRatio){R.setPixelRatio(devicePixelRatio);R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}
+ if(tgt){G.rotation.x+=(tgt.x-G.rotation.x)*.08;G.rotation.y+=(tgt.y-G.rotation.y)*.08}else if(!down)G.rotation.y+=.0015;
+ R.render(S,cam);requestAnimationFrame(loop)})();
+const q=new URLSearchParams(location.search).get("site");pick(q?+q:0);
+</script></body></html>
