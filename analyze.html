@@ -1,0 +1,20 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Analyze | Lunar Navigator</title><link rel="stylesheet" href="style.css"></head><body>
+<main><p class="eyebrow">ANALYZE</p><h2>Sun and Earth at your site</h2>
+<div class="ctl"><label>SITE<select id="site"></select></label><label>LATITUDE °<input id="la" type="number" step="0.01"></label><label>LONGITUDE °<input id="lo" type="number" step="0.01"></label><label>DATE (UTC)<input id="d" type="date"></label><label>TIME (UTC)<input id="t" type="time"></label></div>
+<div class="grid g4" id="cards"></div>
+<p class="eyebrow">NEXT 29.5 DAYS — ELEVATION ABOVE THE HORIZON</p><canvas class="chart" id="ch"></canvas>
+<div class="note" id="ver"></div>
+<div class="note">Model: approximate Sun and Earth sub-points, flat horizon, no terrain, so deep craters and ridges are not shown. Above 0° means above the horizon. Edit latitude and longitude to test any custom location.</div></main>
+<script src="common.js"></script><script>
+const $=id=>document.getElementById(id);$("site").innerHTML=siteOptions();
+const [d0,t0]=nowLocal();$("d").value=new Date().toISOString().slice(0,10);$("t").value=new Date().toISOString().slice(11,16);
+function setSite(i){$("site").value=i;$("la").value=SITES[i].lat;$("lo").value=SITES[i].lon;run()}
+function run(){const la=+$("la").value,lo=+$("lo").value,ms=Date.parse($("d").value+"T"+$("t").value+":00Z");if(isNaN(ms))return;
+ const m=metrics(la,lo,ms),c=(l,v,s)=>`<div class="card"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+ $("cards").innerHTML=c("SOLAR ELEVATION",m.sun.toFixed(1)+"°",m.sun>0?"Sun above horizon":"Sun below horizon")+c("EARTH ELEVATION",m.earth.toFixed(1)+"°",m.earth>0?"Direct link possible":"No direct line to Earth")+
+  c("SUNLIGHT",m.sp.toFixed(0)+"%","of the next lunar day. "+m.sunT)+c("EARTH VISIBLE",m.ep.toFixed(0)+"%","of the next lunar day. "+m.earthT);
+ $("ver").innerHTML=`Overall: <b class="${m.v[1]}">${m.v[0]}</b> — peak Sun elevation ${m.maxSun.toFixed(1)}°. Rule of thumb: ≥60% sunlight and ≥50% Earth visibility.`;
+ chart($("ch"),m.a)}
+$("site").onchange=e=>setSite(+e.target.value);["la","lo","d","t"].forEach(i=>$(i).oninput=run);
+addEventListener("resize",run);setSite(+(new URLSearchParams(location.search).get("site")||0));
+</script></body></html>
