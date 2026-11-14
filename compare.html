@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Compare | Lunar Navigator</title><link rel="stylesheet" href="style.css"></head><body>
+<main><p class="eyebrow">COMPARE</p><h2>Two sites, one date</h2>
+<div class="ctl"><label>SITE A<select id="a"></select></label><label>SITE B<select id="b"></select></label><label>DATE (UTC)<input id="d" type="date"></label><label>TIME (UTC)<input id="t" type="time"></label></div>
+<div class="grid" style="background:none;border:0;margin-bottom:0"><table id="tb"></table></div>
+<p class="eyebrow" style="margin-top:20px">SITE A</p><canvas class="chart" id="c1"></canvas>
+<p class="eyebrow" style="margin-top:20px">SITE B</p><canvas class="chart" id="c2"></canvas>
+<div class="note">Change the date to see how a schedule slip affects each site. Same approximate model as the Analyze page, without terrain.</div></main>
+<script src="common.js"></script><script>
+const $=id=>document.getElementById(id);$("a").innerHTML=$("b").innerHTML=siteOptions();$("a").value=0;$("b").value=1;
+$("d").value=new Date().toISOString().slice(0,10);$("t").value=new Date().toISOString().slice(11,16);
+function run(){const ms=Date.parse($("d").value+"T"+$("t").value+":00Z");if(isNaN(ms))return;
+ const A=SITES[$("a").value],B=SITES[$("b").value],a=metrics(A.lat,A.lon,ms),b=metrics(B.lat,B.lon,ms);
+ const r=(l,f)=>`<tr><th>${l}</th><td>${f(a)}</td><td>${f(b)}</td></tr>`;
+ $("tb").innerHTML=`<tr><th></th><td><b>${A.n}</b></td><td><b>${B.n}</b></td></tr>`+r("SUN ELEVATION",m=>m.sun.toFixed(1)+"°")+r("EARTH ELEVATION",m=>m.earth.toFixed(1)+"°")+
+  r("SUNLIGHT",m=>m.sp.toFixed(0)+"%")+r("EARTH VISIBLE",m=>m.ep.toFixed(0)+"%")+r("SUN EVENT",m=>m.sunT)+r("EARTH EVENT",m=>m.earthT)+r("ASSESSMENT",m=>`<b class="${m.v[1]}">${m.v[0]}</b>`);
+ chart($("c1"),a.a);chart($("c2"),b.a)}
+["a","b","d","t"].forEach(i=>$(i).oninput=run);addEventListener("resize",run);run();
+</script></body></html>
